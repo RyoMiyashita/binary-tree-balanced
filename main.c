@@ -2,11 +2,24 @@
 #include "tree.h"
 
 int main(void) {
-    printf("start create tree\n");
+  printf("start create tree\n");
 
-    node rootNode;
-    initNode(&rootNode, 1);
-    printNode(&rootNode);
+  node rootNode;
+  rootNode = *newNode(10);
+  printNode(&rootNode);
 
-    return 0;
+  node *addNode;
+  initTree(&rootNode);
+  addNode = newNode(3);
+  insertNode(addNode);
+  printf("next\n");
+  printNode(addNode);
+  addNode = newNode(3);
+  insertNode(addNode);
+  printf("root\n");
+  printNode(&rootNode);
+  printf("next\n");
+  printNode(addNode);
+
+  return 0;
 }

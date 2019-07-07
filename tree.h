@@ -5,7 +5,7 @@ node *rootNode;
 void initTree();
 
 void initTree(node *root) {
-    initNode(rootNode, root->key);
+    rootNode = root;
 }
 
 /**
@@ -20,17 +20,17 @@ int insertNode(node *n) {
             if (NULL == currentNode->left) {
                 n->parent = currentNode;
                 currentNode->left = n;
+                currentNode->leftHeight++;
             } else {
                 currentNode = currentNode->left;
-                currentNode->leftHeight = currentNode->leftHeight++;
             }
         } else {
             if (NULL == currentNode->right) {
                 n->parent = currentNode;
                 currentNode->right = n;
+                currentNode->rightHeight++;
             } else {
                 currentNode = currentNode->right;
-                currentNode->rightHeight = currentNode->rightHeight++;
             }
         }
     }

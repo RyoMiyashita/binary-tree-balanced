@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct node {
     int key;
@@ -10,10 +11,12 @@ typedef struct node {
     int rightHeight;
 } node;
 
-void initNode(node *n, int key);
+node *newNode(int key);
 void printNode(node *n);
 
-void initNode(node *n, int key) {
+node* newNode(int key) {
+    node *n;
+    n = (node*)malloc(sizeof(node));
     n->key = key;
     n->value = NULL;
     n->parent = NULL;
@@ -21,6 +24,7 @@ void initNode(node *n, int key) {
     n->right = NULL;
     n->leftHeight = 0;
     n->rightHeight = 0;
+    return n;
 }
 
 void printNode(node *n) {
@@ -31,6 +35,6 @@ void printNode(node *n) {
     printf("left:        %p\n", n->left);
     printf("right:       %p\n", n->right);
     printf("leftHeight:  %d\n", n->leftHeight);
-    printf("right:       %d\n", n->right);
+    printf("leftHeight:  %d\n", n->rightHeight);
 }
 
