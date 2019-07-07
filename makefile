@@ -1,17 +1,35 @@
-PROG := binary-tree-balanced
-SRCS := main.c
+COMPILER  = gcc
 CFLAGS    = -g -MMD -MP -Wall -Wextra -Winit-self -Wno-missing-field-initializers
-OBJS := $(SRCS:%.c=%.o)
-DEPS := $(SRCS:%.c=%.d)
+ifeq "$(shell getconf LONG_BIT)" "64"
+  LDFLAGS =
+else
+  LDFLAGS =
+endif
+LIBS      =
+INCLUDE   = -I./include
+TARGET    = ./bin/$(shell basename `greadlink -f .`)
+SRCDIR    = ./source
+ifeq "$(strip $(SRCDIR))" ""
+  SRCDIR  = .
+endif
+SOURCES   = $(wildcard $(SRCDIR)/*.c)
+OBJDIR    = ./obj
+ifeq "$(strip $(OBJDIR))" ""
+  OBJDIR  = .
+endif
+OBJECTS   = $(addprefix $(OBJDIR)/, $(notdir $(SOURCES:.c=.o)))
+DEPENDS   = $(OBJECTS:.o=.d)
 
-CC := gcc
+$(TARGET): $(OBJECTS) $(LIBS)
+	$(COMPILER) -o $@ $^ $(LDFLAGS)
 
-all: $(PROG)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	-mkdir -p $(OBJDIR)
+	$(COMPILER) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
-$(PROG): $(OBJS)
-	$(CC) -o $@ $^
+all: clean $(TARGET)
 
-%.o: %.c
-	$(CC) -c -MMD $(CFLAGS) $<
 clean:
-	rm -f $(PROG) $(OBJS) $(DEPS)
+	-rm -f $(OBJECTS) $(DEPENDS) $(TARGET)
+
+-include $(DEPENDS)
