@@ -20,6 +20,7 @@ int main(void) {
   printNode(&rootNode);
   printf("next\n");
   printNode(addNode);
+  
 
   return 0;
 }
